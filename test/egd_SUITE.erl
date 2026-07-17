@@ -206,6 +206,7 @@ image_font(Config) when is_list(Config) ->
     AlphaSmStr  = "abcdefghijklmnopqrstuvwxyz",   % Codes  97 -> 122
     GlyphStr4   = "{|}~",                         % Codes 123 -> 126
     UnknownStr  = "abc\0def",
+    BinaryStr   = <<"Binary string">>,
 
     ok = egd:text(Im, get_point(), Font, GlyphStr1, Fgc),
     Png1 = <<_/binary>> = egd:render(Im, png),
@@ -254,6 +255,12 @@ image_font(Config) when is_list(Config) ->
     File8 = filename:join(Dir,"text8.png"),
     ok = egd:save(Png8,File8),
     ct:log("<p>Image:</p><img src=\"~s\" />~n", [File8]),
+
+    ok = egd:text(Im, get_point(), Font, BinaryStr, Fgc),
+    Png9 = <<_/binary>> = egd:render(Im, png),
+    File9 = filename:join(Dir,"text9.png"),
+    ok = egd:save(Png9,File9),
+    ct:log("<p>Image:</p><img src=\"~s\" />~n", [File9]),
 
     ok = egd:destroy(Im),
     erase(image_size),
