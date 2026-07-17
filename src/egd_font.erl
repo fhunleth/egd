@@ -59,8 +59,10 @@ size(Font) ->
     Size.
 
 glyph(Font, Code) ->
-    [{_Key, Translation, LSs}] = ets:lookup(egd_font_table,{Font,Code}),
-    {Translation, LSs}.
+    case ets:lookup(egd_font_table, {Font, Code}) of
+        [{_Key, Translation, LSs}] -> {Translation, LSs};
+        [] -> undefined
+    end.
 
 load(Filename) ->
     {ok, Bin} = file:read_file(Filename),

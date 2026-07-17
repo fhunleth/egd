@@ -575,8 +575,8 @@ line_to_ls_sy_do(X0,Y0,X1,Y1,Dx,Dy,Sx,Sy,E,Ed,Wd,Ls0,_E2,_X) ->
 % Text
 
 text_horizontal_ls(Point, Font, Chars) ->
-    {_Fw,Fh} = egd_font:size(Font),
-    text_intervals(Point, Fh, Font, Chars, []).
+    {Fw,Fh} = egd_font:size(Font),
+    text_intervals(Point, Fw, Fh, Font, Chars, []).
     
 % This is stupid. The starting point is the top left (Ptl) but the font
 % offsets is relative to the bottom right origin,
@@ -596,13 +596,17 @@ text_horizontal_ls(Point, Font, Chars) ->
 % Font height minus Glyph Y offset minus Glyph bitmap data boundingbox
 % height.
 
-text_intervals( _, _, _, [], Out) -> lists:flatten(Out);
-text_intervals({Xtl,Ytl}, Fh, Font, [Code|Chars], Out) ->
-    {{_Gw, Gh, Gx0, Gy0, Gxm}, LSs} = egd_font:glyph(Font, Code),
-    % Set offset points from translation matrix to point in TeInVe.
-    Yo = Fh - Gh + Gy0,
-    GLSs = text_intervals_vertical({Xtl+Gx0,Ytl+Yo},LSs, []),
-    text_intervals({Xtl+Gxm,Ytl}, Fh, Font, Chars, [GLSs|Out]).
+text_intervals( _, _, _, _, [], Out) -> lists:flatten(Out);
+text_intervals({Xtl,Ytl}, Fw, Fh, Font, [Code|Chars], Out) ->
+    case egd_font:glyph(Font, Code) of
+        undefined ->
+            text_intervals({Xtl+Fw,Ytl}, Fw, Fh, Font, Chars, Out);
+        {{_Gw, Gh, Gx0, Gy0, Gxm}, LSs} ->
+            % Set offset points from translation matrix to point in TeInVe.
+            Yo = Fh - Gh + Gy0,
+            GLSs = text_intervals_vertical({Xtl+Gx0,Ytl+Yo},LSs, []),
+            text_intervals({Xtl+Gxm,Ytl}, Fw, Fh, Font, Chars, [GLSs|Out])
+    end.
 
 text_intervals_vertical( _, [], Out) -> Out;
 text_intervals_vertical({Xtl, Ytl}, [LS|LSs], Out) -> 

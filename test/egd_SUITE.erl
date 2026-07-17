@@ -127,7 +127,7 @@ image_shape(Config) when is_list(Config) ->
     ok = egd:arc(Im, get_point(), get_point(), 100, Fgc),
 
     Pt1 = get_point(),
-    Pt2 = get_point(), 
+    Pt2 = get_point(),
 
     ok = egd:filledRectangle(Im, Pt1, Pt2, Fgc),
 
@@ -165,7 +165,7 @@ image_primitives(Config) when is_list(Config) ->
                        {filledTriangle, [get_point(), get_point(), get_point(), Bgc]}]),
 
     Pt1 = get_point(),
-    Pt2 = get_point(), 
+    Pt2 = get_point(),
 
     Im2 = egd_primitives:filledRectangle(Im1, Pt1, Pt2, Fgc),
 
@@ -205,6 +205,7 @@ image_font(Config) when is_list(Config) ->
     GlyphStr3   = "[\\]^_`",                      % Codes  91 ->  96
     AlphaSmStr  = "abcdefghijklmnopqrstuvwxyz",   % Codes  97 -> 122
     GlyphStr4   = "{|}~",                         % Codes 123 -> 126
+    UnknownStr  = "abc\0def",
 
     ok = egd:text(Im, get_point(), Font, GlyphStr1, Fgc),
     Png1 = <<_/binary>> = egd:render(Im, png),
@@ -247,6 +248,12 @@ image_font(Config) when is_list(Config) ->
     File7 = filename:join(Dir,"text7.png"),
     ok = egd:save(Png7,File7),
     ct:log("<p>Image:</p><img src=\"~s\" />~n", [File7]),
+
+    ok = egd:text(Im, get_point(), Font, UnknownStr, Fgc),
+    Png8 = <<_/binary>> = egd:render(Im, png),
+    File8 = filename:join(Dir,"text8.png"),
+    ok = egd:save(Png8,File8),
+    ct:log("<p>Image:</p><img src=\"~s\" />~n", [File8]),
 
     ok = egd:destroy(Im),
     erase(image_size),
