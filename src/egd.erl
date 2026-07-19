@@ -17,10 +17,10 @@
 %%
 %% %CopyrightEnd%
 
-%% 
-%% @doc egd - erlang graphical drawer 
 %%
-%% 
+%% @doc egd - erlang graphical drawer
+%%
+%%
 
 -module(egd).
 
@@ -51,6 +51,8 @@
 
 -type color3() :: {Red::byte(), Green::byte(), Blue::byte()}.
 -type color4() :: {Red::byte(), Green::byte(), Blue::byte(), Alpha::byte()}.
+-type normalized_color() :: {float(), float(), float(), float()}.
+
 -type colorNameSimple() :: aqua | black | blue | fuchia | gray | green | lime |
                            maroon | navy | olive | purple | red | silver | teal |
                            white | yellow.
@@ -148,14 +150,14 @@ information(Pid) ->
 -spec line(Image :: egd_image(),
            Point1 :: point(),
            Point2 :: point(),
-           Color :: color()) -> ok.
+           Color :: normalized_color()) -> ok.
 
 line(Image, P1, P2, Color) ->
     cast(Image, {line, P1, P2, Color}).
 
 %% @doc Creates a color reference.
 
--spec color(Color :: color()) -> color4().
+-spec color(Color :: color()) -> normalized_color().
 
 color(Color) ->
     egd_primitives:color(Color).
@@ -163,7 +165,7 @@ color(Color) ->
 %% @doc Creates a color reference.
 %% @hidden
 
--spec color(_Image :: egd_image(), Color :: color()) -> color4().
+-spec color(_Image :: egd_image(), Color :: color()) -> normalized_color().
 
 color(_Image, Color) ->
     egd_primitives:color(Color).
@@ -174,7 +176,7 @@ color(_Image, Color) ->
            Point :: point(),
            Font :: font(),
            Text :: string() | binary(),
-           Color :: color()) -> ok.
+           Color :: normalized_color()) -> ok.
 
 text(Image, P, Font, Text, Color) when is_binary(Text) ->
     cast(Image, {text, P, Font, binary_to_list(Text), Color});
@@ -186,7 +188,7 @@ text(Image, P, Font, Text, Color) ->
 -spec rectangle(Image :: egd_image(),
                 Point1 :: point(),
                 Point2 :: point(),
-                Color :: color()) -> ok.
+                Color :: normalized_color()) -> ok.
 
 rectangle(Image, P1, P2, Color) ->
     cast(Image, {rectangle, P1, P2, Color}).
@@ -196,7 +198,7 @@ rectangle(Image, P1, P2, Color) ->
 -spec filledRectangle(Image :: egd_image(),
                       Point1 :: point(),
                       Point2 :: point(),
-                      Color :: color()) -> ok.
+                      Color :: normalized_color()) -> ok.
 
 filledRectangle(Image, P1, P2, Color) ->
     cast(Image, {filled_rectangle, P1, P2, Color}).
@@ -206,7 +208,7 @@ filledRectangle(Image, P1, P2, Color) ->
 -spec filledEllipse(Image :: egd_image(),
                     Point1 :: point(),
                     Point2 :: point(),
-                    Color :: color()) -> ok.
+                    Color :: normalized_color()) -> ok.
 
 filledEllipse(Image, P1, P2, Color) ->
     cast(Image, {filled_ellipse, P1, P2, Color}).
@@ -218,7 +220,7 @@ filledEllipse(Image, P1, P2, Color) ->
                      Point1 :: point(),
                      Point2 :: point(),
                      Point3 :: point(),
-                     Color :: color()) -> ok.
+                     Color :: normalized_color()) -> ok.
 
 filledTriangle(Image, P1, P2, P3, Color) ->
     cast(Image, {filled_triangle, P1, P2, P3, Color}).
@@ -226,7 +228,7 @@ filledTriangle(Image, P1, P2, P3, Color) ->
 %% @hidden
 %% @doc Creates a filled filled polygon object.
 
--spec polygon(Image :: egd_image(), Points :: [point()], Color :: color()) -> ok.
+-spec polygon(Image :: egd_image(), Points :: [point()], Color :: normalized_color()) -> ok.
 
 polygon(Image, Pts, Color) ->
     cast(Image, {polygon, Pts, Color}).
@@ -237,7 +239,7 @@ polygon(Image, Pts, Color) ->
 -spec arc(Image :: egd_image(),
           Point1 :: point(),
           Point2 :: point(),
-          Color :: color()) -> ok.
+          Color :: normalized_color()) -> ok.
 
 arc(Image, P1, P2, Color) ->
     cast(Image, {arc, P1, P2, Color}).
@@ -249,12 +251,12 @@ arc(Image, P1, P2, Color) ->
           Point1 :: point(),
           Point2 :: point(),
           Radius :: integer(),
-          Color :: color()) -> ok.
+          Color :: normalized_color()) -> ok.
 
 arc(Image, P1, P2, D, Color) ->
     cast(Image, {arc, P1, P2, D, Color}).
 
-%% @doc Saves the binary to file. 
+%% @doc Saves the binary to file.
 
 -spec save(RenderedImage :: binary(), Filename :: string()) -> ok.
 
@@ -262,7 +264,7 @@ save(Binary, Filename) when is_binary(Binary) ->
     ok = file:write_file(Filename, Binary),
     ok.
 % ---------------------------------
-% Aux functions 
+% Aux functions
 % ---------------------------------
 
 cast(Pid, Command) ->
@@ -271,10 +273,10 @@ cast(Pid, Command) ->
 
 call(Pid, Command) ->
     Pid ! {egd, self(), Command},
-    receive {egd, Pid, Result} -> Result end.    
+    receive {egd, Pid, Result} -> Result end.
 
 % ---------------------------------
-% Server loop 
+% Server loop
 % ---------------------------------
 
 init(W,H) ->
@@ -285,7 +287,7 @@ loop(Image) ->
     receive
 	% Quitting
 	{egd, _Pid, destroy} -> ok;
-	
+
 	% Rendering
     	{egd, Pid, {render, BinaryType, RenderType}} ->
 	    case BinaryType of
