@@ -32,6 +32,7 @@
          image_primitives/1,
          image_colors/1,
          image_font/1,
+         image_font_unicode/1,
          image_fans/1,
          image_png_compliant/1]).
 
@@ -41,7 +42,7 @@ suite() ->
 all() ->
     [image_create_and_destroy, image_shape,
      image_primitives, image_colors, image_font,
-     image_fans,
+     image_font_unicode, image_fans,
      image_png_compliant].
 
 
@@ -261,6 +262,50 @@ image_font(Config) when is_list(Config) ->
     File9 = filename:join(Dir,"text9.png"),
     ok = egd:save(Png9,File9),
     ct:log("<p>Image:</p><img src=\"~s\" />~n", [File9]),
+
+    ok = egd:destroy(Im),
+    erase(image_size),
+    ok.
+
+%% Image font test.
+image_font_unicode(Config) when is_list(Config) ->
+    {W,H} = get_size(proplists:get_value(max_size, Config)),
+    Dir = proplists:get_value(priv_dir, Config),
+    put(image_size, {W,H}),
+    Im = egd:create(W, H),
+    Fgc = egd:color({0,130,0}),
+
+    Filename = filename:join([code:priv_dir(egd),"fonts","cozette.wingsfont"]),
+    Font = egd_font:load(Filename),
+
+    SymbolsStr = <<"Symbols: ✓ ✗ ★ ♫ ☁ ☯"/utf8>>,
+    ArrowsStr = <<"Arrows: ← ↑ → ↓"/utf8>>,
+    MathStr = <<"Math: ≤ ≥ ≠ ± ∞"/utf8>>,
+    EmojiStr = <<"Emoji: 😊 ✨ 🚀 👇"/utf8>>,
+
+    ok = egd:text(Im, {5, 5}, Font, SymbolsStr, Fgc),
+    Png1 = <<_/binary>> = egd:render(Im, png),
+    File1 = filename:join(Dir,"unicode1.png"),
+    ok = egd:save(Png1,File1),
+    ct:log("<p>Image:</p><img src=\"~s\" />~n", [File1]),
+
+    ok = egd:text(Im, {5, 25}, Font, ArrowsStr, Fgc),
+    Png2 = <<_/binary>> = egd:render(Im, png),
+    File2 = filename:join(Dir,"unicode2.png"),
+    ok = egd:save(Png2,File2),
+    ct:log("<p>Image:</p><img src=\"~s\" />~n", [File2]),
+
+    ok = egd:text(Im, {5, 45}, Font, MathStr, Fgc),
+    Png3 = <<_/binary>> = egd:render(Im, png),
+    File3 = filename:join(Dir,"unicode3.png"),
+    ok = egd:save(Png3,File3),
+    ct:log("<p>Image:</p><img src=\"~s\" />~n", [File3]),
+
+    ok = egd:text(Im, {5, 65}, Font, EmojiStr, Fgc),
+    Png4 = <<_/binary>> = egd:render(Im, png),
+    File4 = filename:join(Dir,"unicode4.png"),
+    ok = egd:save(Png4,File4),
+    ct:log("<p>Image:</p><img src=\"~s\" />~n", [File4]),
 
     ok = egd:destroy(Im),
     erase(image_size),

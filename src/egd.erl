@@ -175,11 +175,11 @@ color(_Image, Color) ->
 -spec text(Image :: egd_image(),
            Point :: point(),
            Font :: font(),
-           Text :: string() | binary(),
+           Text :: unicode:chardata(),
            Color :: normalized_color()) -> ok.
 
 text(Image, P, Font, Text, Color) when is_binary(Text) ->
-    cast(Image, {text, P, Font, binary_to_list(Text), Color});
+    cast(Image, {text, P, Font, unicode:characters_to_list(Text), Color});
 text(Image, P, Font, Text, Color) ->
     cast(Image, {text, P, Font, Text, Color}).
 
