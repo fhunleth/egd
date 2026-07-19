@@ -39,8 +39,9 @@ FONTS=       \
 	CJK-16 \
 	CJK-efontB14 \
 	CJK-efontB16 \
-	CJK-efontB24
-
+	CJK-efontB24 \
+	cozette \
+	cozette_hidpi
 
 MODULES= \
 	bdf2wingsfont
@@ -109,7 +110,8 @@ $(FONT_DIR)/CJK-efontB14.wingsfont: efont_b14.bdf efont_16pt_cjk_char0.bdf
 $(FONT_DIR)/CJK-efontB16.wingsfont: efont_b16.bdf efont_16pt_cjk_char0.bdf
 $(FONT_DIR)/CJK-efontB24.wingsfont: efont_b24.bdf efont_24pt_cjk_char0.bdf
 
-
+$(FONT_DIR)/cozette.wingsfont: cozette.bdf
+$(FONT_DIR)/cozette_hidpi.wingsfont: cozette_hidpi.bdf
 
 $(FONT_FILES): bdf2wingsfont.beam
 
