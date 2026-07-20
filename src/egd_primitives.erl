@@ -174,9 +174,9 @@ name_to_color(Color, A) ->
         black  -> {  0,   0,   0, A};
         silver -> {192, 192, 192, A};
         gray   -> {128, 128, 128, A};
-        white  -> {128,   0,   0, A};
-        maroon -> {255,   0,   0, A};
-        red    -> {128,   0, 128, A};
+        white  -> {255, 255, 255, A};
+        maroon -> {128,   0,   0, A};
+        red    -> {255,   0,   0, A};
         purple -> {128,   0, 128, A};
         fuchia -> {255,   0, 255, A};
         green  -> {  0, 128,   0, A};
@@ -185,12 +185,12 @@ name_to_color(Color, A) ->
         yellow -> {255, 255,   0, A};
         navy   -> {  0,   0, 128, A};
         blue   -> {  0,   0, 255, A};
-        teal   -> {  0, 128,   0, A};
-        aqua   -> {  0, 255, 155, A};
+        teal   -> {  0, 128, 128, A};
+        aqua   -> {  0, 255, 255, A};
 
         %% HTML color extensions
         steelblue        -> { 70, 130, 180, A};
-        royalblue        -> {  4,  22, 144, A};
+        royalblue        -> { 65, 105, 225, A};
         cornflowerblue   -> {100, 149, 237, A};
         lightsteelblue   -> {176, 196, 222, A};
         mediumslateblue  -> {123, 104, 238, A};
