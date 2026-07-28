@@ -54,9 +54,15 @@
 %% Interface functions
 %%==========================================================================
 
+%% @doc Returns the width and height of a loaded font in pixels.
+
 size(Font) ->
     [{_Key, _Description, Size}] = ets:lookup(egd_font_table,{Font,information}),
     Size.
+
+%% @doc Returns glyph rendering data for a character code, or undefined.
+%%
+%% The returned data is used internally by egd:text/5.
 
 glyph(Font, Code) ->
     case ets:lookup(egd_font_table, {Font, Code}) of
@@ -64,9 +70,13 @@ glyph(Font, Code) ->
         [] -> undefined
     end.
 
+%% @doc Loads a serialized EGD font from a file and returns its font handle.
+
 load(Filename) ->
     {ok, Bin} = file:read_file(Filename),
     load_binary(Bin).
+
+%% @doc Loads a serialized EGD font binary and returns its font handle.
 
 load_binary(Bin) when is_binary(Bin) ->
     Font = erlang:binary_to_term(Bin),
