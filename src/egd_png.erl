@@ -14,14 +14,15 @@
 %% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 %% See the License for the specific language governing permissions and
 %% limitations under the License.
-%% 
+%%
 %% %CopyrightEnd%
 
 
 %% This code was originally written by Dan Gudmundsson for png-handling in
 %% wings3d (e3d__png).
 %%
-%% @doc egd 
+%% @hidden
+%% @doc egd
 %%
 
 -module(egd_png).

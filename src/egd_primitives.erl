@@ -17,8 +17,8 @@
 %% 
 %% %CopyrightEnd%
 
-%% 
-%% @doc egd_primitives 
+%% @hidden
+%% @doc egd_primitives
 %%
 
 

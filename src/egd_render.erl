@@ -17,8 +17,9 @@
 %%
 %% %CopyrightEnd%
 
-%% 
-%% @doc egd_render 
+%%
+%% @hidden
+%% @doc egd_render
 %%
 
 -module(egd_render).
