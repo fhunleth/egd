@@ -26,6 +26,8 @@ This EGD fork has the following updates:
 - Rendering unknown glyphs doesn't crash
 - The `bdf2wingsfont` tool for converting BDF fonts is included in the repository
 - Various corrections to named color values (`white`, `red` and a few others)
+- Add Cozette font for more complete Unicode glyph support
+- Add Terminus font and add more glyphs to default 6x11 font
 
 ## Installation
 
