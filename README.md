@@ -37,13 +37,13 @@ published under the hex `egd_fhunleth` package, though.
 If using `rebar3`, add:
 
 ```erlang
-{egd, "0.10.1", {pkg, egd_fhunleth}}
+{egd, "0.11.0", {pkg, egd_fhunleth}}
 ```
 
 If using `mix`, add:
 
 ```elixir
-{:egd, "~> 0.10.1", hex: :egd_fhunleth}
+{:egd, "~> 0.11.0", hex: :egd_fhunleth}
 ```
 
 ## File example
