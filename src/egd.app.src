@@ -31,11 +31,11 @@
              egd_primitives,
              egd_render]},
   %% hex.pm properties
-  {pkg_name, egd24}, % reserve name 'egd' for the original author, however
-                     % ownership can be transferred later too:
-                     % https://hexdocs.pm/rebar3_hex/rebar3_hex_owner.html
+  {pkg_name, egd_fhunleth}, % reserve name 'egd' for the original author, however
+                            % ownership can be transferred later too:
+                            % https://hexdocs.pm/rebar3_hex/rebar3_hex_owner.html
   {licenses, ["Apache-2.0"]},
-  {links, [{"GitHub","https://github.com/KornelH/egd"}]}
+  {links, [{"GitHub","https://github.com/fhunleth/egd_fhunleth"}]}
  ]}.
 
 %% vim: ft=erlang

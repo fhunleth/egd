@@ -1,4 +1,11 @@
-# Erlang Graphical Drawer
+# Erlang Graphical Drawer (fhunleth fork)
+
+> #### fhunleth fork {: .info}
+>
+> This is a fork of [egd24 (KornelH/egd)](https://github.com/KornelH/egd) which
+> is a fork of [egd (erlang/egd)](https://github.com/erlang/egd). It's intended
+> to be API compatible. If either of those repositories starts being maintained
+> again, please use them instead.
 
 Erlang Graphical Drawer ([egd](https://github.com/erlang/egd)) is an interface
 for 2d-image rendering and is used by
@@ -12,6 +19,30 @@ lines.
 The foremost purpose for this module is to enable users to generate images from
 Erlang code and/or datasets and to send these images to either files or web
 servers.
+
+This EGD fork has the following updates:
+
+- `egd:text/5` supports both Erlang and Elixir strings (binaries) with Unicode
+- Rendering unknown glyphs doesn't crash
+- The `bdf2wingsfont` tool for converting BDF fonts is included in the repository
+- Various corrections to named color values (`white`, `red` and a few others)
+
+## Installation
+
+This is a drop in replacement for `egd` and uses the same namespace. It's
+published under the hex `egd_fhunleth` package, though.
+
+If using `rebar3`, add:
+
+```erlang
+{egd, "0.10.1", {pkg, egd_fhunleth}}
+```
+
+If using `mix`, add:
+
+```elixir
+{:egd, "~> 0.10.1", hex: :egd_fhunleth}
+```
 
 ## File example
 
@@ -52,7 +83,7 @@ do() ->
     lists:map(
         fun({X,Y}) ->
             egd:rectangle(Im, {X-5, Y-5}, {X+5,Y+5}, Green)
-        end, Pts), 
+        end, Pts),
 
     egd:save(egd:render(Im, png), "test3.png"),
 
