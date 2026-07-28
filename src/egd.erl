@@ -155,7 +155,19 @@ information(Pid) ->
 line(Image, P1, P2, Color) ->
     cast(Image, {line, P1, P2, Color}).
 
-%% @doc Creates a color reference.
+%% @doc Converts an RGB, RGBA, or named color to EGD's normalized RGBA form
+%%
+%% <h2>Examples</h2>
+%%
+%% <pre>
+%% Red = egd:color({255, 0, 0}).
+%% SemiTransparentBlue = egd:color({0, 0, 255, 128}).
+%% Green = egd:color(green).
+%% SemiTransparentGold = egd:color({gold, 128}).
+%% </pre>
+%%
+%% See <a href="#t:colorName/0">t:colorName/0</a> for named color atoms.
+%%
 
 -spec color(Color :: color()) -> normalized_color().
 
