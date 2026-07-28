@@ -1,5 +1,8 @@
 # Erlang Graphical Drawer (fhunleth fork)
 
+[![Hex version](https://img.shields.io/hexpm/v/egd_fhunleth.svg "Hex version")](https://hex.pm/packages/egd_fhunleth)
+[![API docs](https://img.shields.io/hexpm/v/egd_fhunleth.svg?label=hexdocs "API docs")](https://hexdocs.pm/egd_fhunleth/readme.html)
+
 > #### fhunleth fork {: .info}
 >
 > This is a fork of [egd24 (KornelH/egd)](https://github.com/KornelH/egd) which
